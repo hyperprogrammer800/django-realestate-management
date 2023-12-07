@@ -1,0 +1,20 @@
+{% extends "management/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <div class="media">
+      <div class="media-body">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        {% if user.tenant.address %}
+            <p class="text-secondary">{{ user.tenant.address }}</p>
+        {% endif %}
+        {% if user.tenant.documents %}
+            <iframe src="{{ user.tenant.documents }}" style="width:600px; height:500px;" frameborder="0"></iframe>
+        {% endif %}
+        <!-- <embed src="{{ user.tenant.documents }}" width="800px" height="2100px" /> -->
+      </div>
+    </div>
+    <!-- FORM HERE -->
+  </div>
+{% endblock content %}
