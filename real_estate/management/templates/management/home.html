@@ -16,12 +16,7 @@
         {% for unit in units %}
             {% if unit.property.id == property.id %}
                 <h5 class="article-content"> {{ unit.type }} for {{ unit.rent_cost|floatformat:"0" }}</h2>
-                {% for rent in rents %}
-                    {% if rent.unit.id == unit.id %}    
-                         <h7>Rented by <a href="">{{ rent.tenant.username }} </a></h2>
-                    {% endif %}
-                {% endfor %}
-                
+                <h7>Rented by <a href="">{{ unit.rental_info.tenant.username }} </a></h2>  
             {% endif %}
         {% endfor %}
         

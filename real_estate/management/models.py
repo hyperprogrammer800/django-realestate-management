@@ -43,7 +43,7 @@ class Unit(models.Model):
 
 class RentalInfo(models.Model):
     tenant = models.ForeignKey(User, on_delete=models.CASCADE)
-    unit = models.OneToOneField(Unit, on_delete=models.CASCADE)
+    unit = models.OneToOneField(Unit, on_delete=models.CASCADE, related_name='rental_info')
     end_date = models.DateField(default=default_end_date)
     rent_date = models.PositiveIntegerField()
 
