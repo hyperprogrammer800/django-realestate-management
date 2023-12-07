@@ -1,0 +1,31 @@
+{% extends "management/base.html" %}
+{% block content %}
+{% for property in properties %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+        <!-- <a class="mr-2" href="#">{{ property.location }}</a> -->
+        <small class="text-muted">
+            {% if property.address %}
+                {{ property.address }},
+            {% endif %} 
+            {{ property.location }}
+        </small>
+        </div>
+        <h2><a class="article-title" href="#">{{ property.name }}</a></h2>
+        {% for unit in units %}
+            {% if unit.property.id == property.id %}
+                <h5 class="article-content"> {{ unit.type }} for {{ unit.rent_cost|floatformat:"0" }}</h2>
+                {% for rent in rents %}
+                    {% if rent.unit.id == unit.id %}    
+                         <h7>Rented by <a href="">{{ rent.tenant.username }} </a></h2>
+                    {% endif %}
+                {% endfor %}
+                
+            {% endif %}
+        {% endfor %}
+        
+    </div>
+</article>
+{% endfor %}
+{% endblock content %}
