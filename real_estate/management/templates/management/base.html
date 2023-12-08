@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -25,7 +26,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'property-home' %}">Properties</a>
+                <a class="nav-item nav-link" href="{% url 'property-home' %}"> All Properties</a>
                 <a class="nav-item nav-link" href="{% url 'tenant-home' %}">Tenant</a>
               </div>
               <!-- Navbar Right Side -->
@@ -55,32 +56,20 @@
                 {% endif %}
                 {% block content %}{% endblock %}
             </div>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and un_form and p_form%}
             <div class="col-md-4">
             <div class="content-section">
                 <h3>Our Searchbar</h3>
                 <p class='text-muted'>You can search any information here you'd like.
-                    <form>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Property and Unit Filters</legend>
+                            {{ p_form|crispy }}
+                            {{ un_form|crispy }}
+                        </fieldset>
                         <div class="form-group">
-                            <label for="PropertyName">Property Name</label>
-                            <input class="form-control" id="PropertyName" type="text" placeholder="Type Property Name here...">
-                        </div>
-                        <div class="form-group">
-                            <label for="PropertyLocation">Property Location</label>
-                            <input class="form-control" id="PropertyLocation" type="text" placeholder="Type Property Location here...">
-                        </div>
-                        <div class="form-group">
-                        <label for="PropertyUnit">Select Property Unit</label>
-                        <select class="form-control" id="PropertyUnit">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="TenantName">Tenant Name</label>
-                            <input class="form-control" id="TenantName" type="text" placeholder="Type Tenant Name here...">
+                            <button class="btn btn-outline-info" type="submit">Search</button>
                         </div>
                     </form>
                 </p>

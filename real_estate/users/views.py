@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, TenantUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -19,4 +19,21 @@ def register(request):
 
 @login_required
 def tenant(request):
-    return render(request, 'users/tenant.html')
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        t_form = TenantUpdateForm(request.POST,
+                                  request.FILES, 
+                                  instance=request.user.tenant)
+        if u_form.is_valid()  and t_form.is_valid():
+            u_form.save()
+            t_form.save()
+            messages.success(request, f'Your Account has been updated!')
+            return redirect('tenant')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        t_form = TenantUpdateForm(instance=request.user.tenant)
+    context = {
+        'u_form' : u_form,
+        't_form' : t_form
+    }
+    return render(request, 'users/tenant.html', context)
